@@ -48,7 +48,7 @@ def get_ancestors(
     sheep_id: int,
     pedigree: dict[int, tuple[int | None, int | None]],
     max_gen: int = 6,
-    _ancestor_cache: dict | None = None,
+    _ancestor_cache: dict[tuple[int, int], dict[int, list[int]]] | None = None,
 ) -> dict[int, list[int]]:
     """
     Telusuri leluhur seekor domba ke atas hingga max_gen generasi.
@@ -96,8 +96,8 @@ def calculate_coi(
     ram_id: int,
     pedigree: dict[int, tuple[int | None, int | None]],
     max_gen: int = 6,
-    _memo: dict | None = None,
-    _ancestor_cache: dict | None = None,
+    _memo: dict[tuple[int, int, int], float] | None = None,
+    _ancestor_cache: dict[tuple[int, int], dict[int, list[int]]] | None = None,
 ) -> float:
 
     if _memo is None:
@@ -145,8 +145,8 @@ def is_safe_pair(
     ram_id: int,
     pedigree: dict[int, tuple[int | None, int | None]] | None = None,
     threshold: float = INBREEDING_THRESHOLD,
-    _memo: dict | None = None,
-    _ancestor_cache: dict | None = None,
+    _memo: dict[tuple[int, int, int], float] | None = None,
+    _ancestor_cache: dict[tuple[int, int], dict[int, list[int]]] | None = None,
 ) -> tuple[bool, float]:
 
     if pedigree is None:
