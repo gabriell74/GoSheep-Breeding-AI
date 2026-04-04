@@ -86,6 +86,46 @@ def test_filter_returns_safe():
     assert results[0]["sheep_id"] == 5
     assert results[0]["coi"] == 0.0
 
+def test_coi_offspring_of_full_siblings():
+    """
+    Ram(7) hasil dari full sibling (sire=3, dam=4)
+    Pastikan rekursi menghitung F_A dengan benar
+    """
+    coi = calculate_coi(6, 7, MOCK_PEDIGREE)
+    assert abs(coi - 0.125) < 0.001, f"Expected 0.125, got {coi}"
+
+def test_coi_symmetry():
+    """COI(A,B) harus sama dengan COI(B,A)"""
+    coi_ab = calculate_coi(4, 3, MOCK_PEDIGREE)
+    coi_ba = calculate_coi(3, 4, MOCK_PEDIGREE)
+    assert coi_ab == coi_ba, f"COI tidak simetris: {coi_ab} vs {coi_ba}"
+
+def test_memo_shared_across_candidates():
+    """Pastikan memo benar-benar dipakai lintas kandidat"""
+    memo = {}
+    ancestor_cache = {}
+
+    coi_1 = calculate_coi(4, 3, MOCK_PEDIGREE, _memo=memo, _ancestor_cache=ancestor_cache)
+    size_after_first = len(memo)
+
+    coi_2 = calculate_coi(4, 3, MOCK_PEDIGREE, _memo=memo, _ancestor_cache=ancestor_cache)
+    size_after_second = len(memo)
+
+    assert coi_1 == coi_2
+    assert size_after_first == size_after_second, \
+        "Memo bertambah padahal pasangan sama → cache tidak bekerja"
+
+def test_filter_coi_percent_format():
+    """Pastikan coi_percent konsisten dengan coi"""
+    results = filter_safe_candidates(
+        selected_id=4,
+        candidates=[5],
+        pedigree=MOCK_PEDIGREE,
+        is_ewe_selected=True
+    )
+    for r in results:
+        assert abs(r["coi_percent"] - r["coi"] * 100) < 0.001, \
+            "coi_percent tidak konsisten dengan coi"
 
 # ── Integration test
 
