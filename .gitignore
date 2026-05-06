@@ -22,6 +22,9 @@ models/*.h5
 # ── Data mentah ────────────────────────────────────────────
 data/*.csv
 data/*.json
+data/*.xlsx
+data/raw/*
+data/processed/*
 
 # ── IDE ────────────────────────────────────────────────────
 .vscode/
