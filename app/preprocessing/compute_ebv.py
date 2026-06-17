@@ -6,8 +6,8 @@ import pandas as pd
 import numpy as np
 
 H2 = {
-    "bobot"    : 0.31,   # Nurjulaeha 2015, Domba Garut Margawati
-    "adg"      : 0.28,   # estimasi konservatif, kisaran literatur
+    "bobot"    : 0.31,
+    "adg"      : 0.28,
     "kesehatan": 0.10,   # rendah — kesehatan lebih dipengaruhi lingkungan
 }
 
