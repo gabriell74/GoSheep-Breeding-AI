@@ -7,7 +7,7 @@ atau saat cron update sheep_features.
 import pandas as pd
 import numpy as np
 import joblib
-from train import FEATURE_COLS, TARGET_COLS
+from app.models.train import FEATURE_COLS, TARGET_COLS
 
 def load_model(model_path: str):
     """
